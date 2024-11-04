@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Delivery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRftBWdBrrdxJFqdTSXCWe4yjtUB19ZR6USLw&s.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333333; /* Dark grey text color for general text */
+        }
+
+        header {
+            background-color: #004d40; /* Dark teal background for the header */
+            color: #ffffff; /* White text color */
+            padding: 1rem;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #00796b;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        nav a {
+            margin: 0 15px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 1rem;
+        }
+        #home {
+            display: none;
+            text-align: center;
+            padding: 50px 0;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+       }
+      #home h2 {
+            font-size: 2.5rem;
+            color: #ffffff; /* White color for the heading */
+            margin-bottom: 20px; /* Adds some spacing below the heading */
+      }
+
+      #home p {
+           font-size: 1.2rem;
+           color: #ffffff; /* White color for the paragraph text */
+            max-width: 800px;
+           margin: 0 auto;
+           line-height: 1.6; /* Improves readability by increasing line spacing */
+      }
+
+
+        #menu, #cart, #order-form, #success-message {
+            display: none;
+        }
+
+        #menu {
+            margin: 20px 0;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            color: #FFFFFF;
+        }
+
+        .menu-item {
+            background-size: cover;
+            background-position: center;
+            color: #ffffff; /* White text color for menu items */
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            height: 250px; /* Adjust height as needed */
+            position: relative;
+            text-align: left;
+            background-color: rgba(0, 0, 0, 0.5); /* Dark background with some transparency for readability */
+        }
+
+        .menu-item img {
+            width: 100px; /* Adjust width as needed */
+            height: 75px; /* Adjust height as needed */
+            object-fit: cover; /* Maintain aspect ratio */
+            border-radius: 5px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .menu-item h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #ffffff; /* White text color */
+        }
+
+        .menu-item p {
+            margin: 5px 0;
+            color: #ffffff; /* White text color */
+        }
+
+        .menu-item span {
+            font-weight: bold;
+            color: #ffffff; /* White text color */
+        }
+
+        .menu-item button {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background-color: #00796b; /* Teal background for buttons */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .menu-item button:hover {
+            background-color: #004d40; /* Darker shade on hover */
+        }
+
+        #cart {
+            margin-top: 20px;
+            background-color: #ffffff; /* White background for the cart section */
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #cart h2 {
+            margin-top: 0;
+            color: #004d40; /* Dark teal text color */
+        }
+
+        #cart ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #cart ul li {
+            margin-bottom: 10px;
+            color: #333333; /* Dark grey text color */
+        }
+
+        #cart .total {
+            font-weight: bold;
+            margin-top: 10px;
+            color: #00796b; /* Teal text color */
+        }
+
+        #order-form {
+            margin-top: 20px;
+            background-color: #ffffff;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #order-form h2 {
+            margin-top: 0;
+            color: #004d40; /* Dark teal text color */
+        }
+
+        #order-form input,
+        #order-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            color: #333333; /* Dark grey text color */
+        }
+
+        #order-form button {
+            padding: 10px 15px;
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #order-form button:hover {
+            background-color: #004d40;
+        }
+
+        #success-message {
+            display: none;
+            padding: 1rem;
+            background-color: #dff0d8; /* Light green background for success message */
+            color: #3c763d; /* Dark green text color */
+            border-radius: 5px;
+            border: 1px solid #d6e9c6;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body onload="showSection('home')">
+    <header>
+        <h1><i>Welcome to TAJ</i></h1>
+    </header>
+
+    <nav>
+        <a href="javascript:void(0)" onclick="showSection('home')">Home</a>
+        <a href="javascript:void(0)" onclick="showSection('menu')">Menu</a>
+        <a href="javascript:void(0)" onclick="showSection('cart')">Your Cart</a>
+        <a href="javascript:void(0)" onclick="showSection('order-form')">Place Order</a>
+    </nav>
+
+    <main id="main-content">
+        <section id="home">
+            <h2>Welcome to TAJ Food Delivery</h2>
+            <p>Your favorite meals delivered right to your doorstep! Browse our delicious menu, add items to your cart, and place an order in just a few clicks. We pride ourselves on providing high-quality, freshly prepared meals at great prices. Whether you're craving a pizza, burger, pasta, or traditional meals, we've got you covered. Enjoy a hassle-free food delivery experience with TAJ.</p>
+        </section>
+
+        <section id="menu">
+            <h2>Menu</h2>
+            <div class="menu-item" style="background-image: url('https://cdn.britannica.com/08/177308-050-94D9D6BE/Food-Pizza-Basil-Tomato.jpg');">
+                <img src="https://cdn.britannica.com/08/177308-050-94D9D6BE/Food-Pizza-Basil-Tomato.jpg" alt="Pizza">
+                <div>
+                    <h3>Pizza</h3>
+                    <p>Delicious cheese pizza.</p>
+                    <span>₹90.00</span>
+                    <button onclick="addToCart('Pizza', 90.00)">Add to Cart</button>
+                </div>
+            </div>
+            <div class="menu-item" style="background-image: url('https://www.foodandwine.com/thmb/DI29Houjc_ccAtFKly0BbVsusHc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/crispy-comte-cheesburgers-FT-RECIPE0921-6166c6552b7148e8a8561f7765ddf20b.jpg');">
+                <img src="https://www.foodandwine.com/thmb/DI29Houjc_ccAtFKly0BbVsusHc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/crispy-comte-cheesburgers-FT-RECIPE0921-6166c6552b7148e8a8561f7765ddf20b.jpg" alt="Burger">
+                <div>
+                    <h3>Burger</h3>
+                    <p>Juicy beef burger with lettuce and tomato.</p>
+                    <span>₹73.00</span>
+                    <button onclick="addToCart('Burger', 73.00)">Add to Cart</button>
+                </div>
+            </div>
+            <div class="menu-item" style="background-image: url('https://images.immediate.co.uk/production/volatile/sites/30/2021/05/Fajita-pasta-e6e5b93.jpg?resize=768,574.jpg');">
+                <img src="https://images.immediate.co.uk/production/volatile/sites/30/2021/05/Fajita-pasta-e6e5b93.jpg?resize=768,574" alt="Pasta">
+                <div>
+                    <h3>Pasta</h3>
+                    <p>Creamy Alfredo pasta with chicken.</p>
+                    <span>₹167.00</span>
+                    <button onclick="addToCart('Pasta', 167.00)">Add to Cart</button>
+                </div>
+            </div>
+            <div class="menu-item" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR41iXwzjEBn-yKvuHxmDcoTj0m74QNV4c0ow&s.jpg');">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR41iXwzjEBn-yKvuHxmDcoTj0m74QNV4c0ow&s" alt="Meals">
+                <div>
+                    <h3>Meals</h3>
+                    <p>Mid day Unlimited Veg Meals.</p>
+                    <span>₹167.00</span>
+                    <button onclick="addToCart('Meals', 170.00)">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="cart">
+            <h2>Your Cart</h2>
+            <ul id="cart-items"></ul>
+            <div class="total" id="cart-total">Total: ₹0.00</div>
+        </section>
+
+        <section id="order-form">
+            <h2>Place Order</h2>
+            <form>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="address">Address:</label>
+                <textarea id="address" name="address" rows="4" required></textarea>
+
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" required>
+
+                <button type="button" onclick="placeOrder()">Place Order</button>
+            </form>
+        </section>
+
+        <div id="success-message">
+            <p>Thank you for your order! It will be delivered soon.</p>
+        </div>
+    </main>
+
+    <script>
+        const cart = [];
+
+        function showSection(sectionId) {
+            const sections = ['home', 'menu', 'cart', 'order-form'];
+            sections.forEach(section => {
+                document.getElementById(section).style.display = section === sectionId ? 'block' : 'none';
+            });
+        }
+
+        function addToCart(item, price) {
+            cart.push({ item, price });
+            renderCart();
+            showSection('cart'); // Automatically show the cart when an item is added
+        }
+
+        function renderCart() {
+            const cartItems = document.getElementById('cart-items');
+            cartItems.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((cartItem, index) => {
+                const li = document.createElement('li');
+                li.textContent = ${cartItem.item} - ₹${cartItem.price.toFixed(2)};
+                cartItems.appendChild(li);
+                total += cartItem.price;
+            });
+
+            document.getElementById('cart-total').textContent = Total: ₹${total.toFixed(2)};
+        }
+
+        function placeOrder() {
+            const name = document.getElementById('name').value;
+            const address = document.getElementById('address').value;
+            const phone = document.getElementById('phone').value;
+
+            if (name && address && phone) {
+                document.getElementById('main-content').style.display = 'none';
+                document.getElementById('success-message').style.display = 'block';
+            } else {
+                alert('Please fill in all fields.');
+            }
+        }
+    </script>
+</body>
+</html>
